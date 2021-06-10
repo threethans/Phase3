@@ -404,6 +404,128 @@ public class DBproject{
 	}
 
 	public static void AddPatient(DBproject esql) {//2
+		/*
+		CREATE TABLE Patient (
+		patient_ID NUMERIC(9, 0) PRIMARY KEY,
+		name CHAR(30),
+		gender CHAR(15),
+		numAppointments NUMERIC(9, 0),
+		age NUMERIC(3, 0),
+		address CHAR(40)
+		);
+		*/
+
+		int pID;
+		String name;
+		String gender;
+		int numApt;
+		int age;
+		String address;
+
+		//retrieves patient id
+		while(true)
+		{
+			System.out.print("Please enter Patient ID: ");
+			try
+			{
+				pID = Integer.parseInt(in.readLine());
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves name
+		while(true)
+		{
+			System.out.print("Please enter Patient name: ");
+			try
+			{
+				name = in.readLine();
+				if(name.length() <= 0)
+				{
+					throw new RuntimeException("Invalid input! The Patient's name cannot be empty.");
+				}
+			}
+			catch (Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves patient's gender NOTE: PREDETERMINED TABLES ONLY ALLOW M OR F, THIS IS NOT BY INDIVIDUAL CHOICE
+		while(true)
+		{
+			System.out.print("Please enter Patient's gender(Use 'M' or 'F': ");
+			try
+			{
+				gender  = in.readLine();
+				if(gender != "M" || gender != "F")
+				{
+					throw new RuntimeException("Invalid input! The only valid input for a Patient's gender is 'M' or 'F'.");
+				}
+			}
+			catch (Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves number of appointments
+		while(true)
+		{
+			System.out.print("Please enter the number of appointments the Patient has: ");
+			try
+			{
+				numApt = Integer.parseInt(in.readLine());
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves the age of the patient
+		while(true)
+		{
+			System.out.print("Please enter the Patient's age: ");
+			try
+			{
+				age = Integer.parseInt(in.readLine());
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves the patient's address
+		while(true)
+		{
+			System.out.print("Please enter the Patient's address: ");
+			try
+			{
+				address = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//combine queries and add to database
+		try
+		{
+			queries = "INSERT INTO Patient(patient_ID, name, gender, numAppointments, age, address) VALUES (" + pID + ", '" + name + "', '" + gender + "', " + numApt + ", " + age + ", '" + address + "');");
+			esql.executeUpdate(query);
+		}
 	}
 
 	public static void AddAppointment(DBproject esql) {//3
