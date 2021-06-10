@@ -407,13 +407,15 @@ public class DBproject{
 
 	public static void AddPatient(DBproject esql) {//2
 		/*
-		CREATE TABLE Patient (
-		patient_ID NUMERIC(9, 0) PRIMARY KEY,
-		name CHAR(30),
-		gender CHAR(15),
-		numAppointments NUMERIC(9, 0),
-		age NUMERIC(3, 0),
-		address CHAR(40)
+		CREATE TABLE Patient
+		(
+			patient_ID INTEGER NOT NULL,
+			name VARCHAR(128) NOT NULL,	
+			gtype _GENDER NOT NULL,
+			age INTEGER NOT NULL,
+			address VARCHAR(256),
+			number_of_appts INTEGER,
+			PRIMARY KEY (patient_ID)
 		);
 		*/
 
@@ -423,6 +425,8 @@ public class DBproject{
 		int numApt;
 		int age;
 		String address;
+
+		String query;
 
 		//retrieves patient id
 		while(true)
@@ -477,21 +481,6 @@ public class DBproject{
 			}
 		}
 
-		//retrieves number of appointments
-		while(true)
-		{
-			System.out.print("Please enter the number of appointments the Patient has: ");
-			try
-			{
-				numApt = Integer.parseInt(in.readLine());
-			}
-			catch(Exception e)
-			{
-				System.out.println("Invalid input! Error message: " + e.getMessage());
-				continue;
-			}
-		}
-
 		//retrieves the age of the patient
 		while(true)
 		{
@@ -522,11 +511,30 @@ public class DBproject{
 			}
 		}
 
+		//retrieves number of appointments
+		while(true)
+		{
+			System.out.print("Please enter the number of appointments the Patient has: ");
+			try
+			{
+				numApt = Integer.parseInt(in.readLine());
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
 		//combine queries and add to database
 		try
 		{
-			queries = "INSERT INTO Patient(patient_ID, name, gender, numAppointments, age, address) VALUES (" + pID + ", '" + name + "', '" + gender + "', " + numApt + ", " + age + ", '" + address + "');");
+			query = "INSERT INTO Patient(patient_ID, name, gtype, age, address, number_of_appts) VALUES (" + pID + ", '" + name + "', '" + gender + "', " + age + ", '" + address + "', " + numApt + ");");
 			esql.executeUpdate(query);
+		}
+		catch (Exception e)
+		{
+			System.err.println("Query attempt failed. Error message: " + e.getMessage());
 		}
 	}
 
