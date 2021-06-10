@@ -539,6 +539,147 @@ public class DBproject{
 	}
 
 	public static void AddAppointment(DBproject esql) {//3
+		/*
+		CREATE TABLE Appointment
+		(	
+			appnt_ID INTEGER NOT NULL,	
+			adate DATE NOT NULL,
+			time_slot VARCHAR(11),
+			status _STATUS,
+			PRIMARY KEY (appnt_ID)
+		);
+		);
+		*/
+		int apptID;
+		String dateM;
+		String dateD;
+		String dateY;
+		String timeSlotStart;
+		String timeSlotEnd;
+		String status;
+
+		String query;
+
+		//retrieves appointment id
+		while(true)
+		{
+			System.out.print("Please enter the Appointment ID: ");
+			try
+			{
+				apptID = Integer.parseInt(in.readLine());
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves appointment day(month)
+		while(true)
+		{
+			System.out.print("Please enter the month of the Appointment: ");
+			try
+			{
+				dateM = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves appointment day(day)
+		while(true)
+		{
+			System.out.print("Please enter the day of the Appointment: ");
+			try
+			{
+				dateD = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves appointment day(year)
+		while(true)
+		{
+			System.out.print("Please enter the month of the Appointment: ");
+			try
+			{
+				dateM = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves appointment start time slot, i.e. 13:00 is 1:00pm
+		while(true)
+		{
+			System.out.print("Please enter the Appointment Start time slot(Using hours:minutes. i.e. 2:00 or 17:00): ");
+			try
+			{
+				timeSlotStart = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves appointment end time slot, i.e. 13:00 is 1:00pm
+		while(true)
+		{
+			System.out.print("Please enter the Appointment End time slot(Using hours:minutes. i.e. 2:00 or 17:00): ");
+			try
+			{
+				timeSlotEnd = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//retrieves status of appointment (PA=past, AC=active, AV=available, WL=waitlisted)
+		while(true)
+		{
+			System.out.print("Please enter the status of the Appointment: ");
+			try
+			{
+				status = in.readLine();
+				if(status != 'PA' || status != 'AC' || status != 'AV' || status != 'WL')
+				{
+					throw new RuntimeException("Invalid input! The only valid input for an Appointment Status is 'PA' or 'AC' or 'AV' or 'WL'.");
+				}
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! Error message: " + e.getMessage());
+				continue;
+			}
+		}
+
+		//combine queries and add to database
+		try
+		{
+			//VALUES (apptID, 'dateM/dateD/dateY', 'timeSlotStart-timeSlotEnd', 'status')
+			query = "INSERT INTO Appointment(appnt_ID, adate, time_slot, status) VALUES (" + apptID + ", '" + dateM + "/" +dateD + "/" + dateY "', '" + timeSlotStart + "-" + timeSlotEnd + "', '" + status + "');");
+			esql.executeUpdate(query);
+		}
+		catch (Exception e)
+		{
+			System.err.println("Query attempt failed. Error message: " + e.getMessage());
+		}
 	}
 
 
