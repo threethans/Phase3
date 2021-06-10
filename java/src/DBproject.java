@@ -299,19 +299,22 @@ public class DBproject{
 
 	public static void AddDoctor(DBproject esql){
 		/*
-			CREATE TABLE Doctor_works_dept (
-			doctor_ID NUMERIC(9, 0),
-			name CHAR(30),
-			specialty CHAR(20),
-			dept_ID NUMERIC(3, 0),
-			PRIMARY KEY(doctor_ID, dept_ID),
-			FOREIGN KEY(dept_ID) REFERENCES Department);
+			CREATE TABLE Doctor
+			(
+				doctor_ID INTEGER NOT NULL,
+				name VARCHAR(128),
+				specialty VARCHAR(24),
+				did INTEGER NOT NULL,
+				PRIMARY KEY (doctor_ID),
+				FOREIGN KEY (did) REFERENCES Department(dept_ID)
+			);
 		*/
 
 		int docID;
 		String name;
 		String specialty;
 		int deptID;
+
 		String query;	
 
 		//gets values for each of these variables
@@ -390,10 +393,9 @@ public class DBproject{
 		}
 
 		//now to combine all the queries and add it to the database
-		//System.out.println(query);
 		try
 		{
-			query = "INSERT INTO Doctor_works_dept (doctor_ID, name, specialty, dept_ID) VALUES (" + docID " , '" + name + "', '" + specialty + "', " + deptID + " );";
+			query = "INSERT INTO Doctor_works_dept (doctor_ID, name, specialty, did) VALUES (" + docID " , '" + name + "', '" + specialty + "', " + deptID + " );";
 			esql.executeUpdate(query);
 		}
 		catch (Exception e)
