@@ -750,7 +750,7 @@ public class DBproject{
 		//combine queries
 		try
 		{
-			query = "SELECT A.appnt_ID from Appointment A, Doctor D has_appointment H where H.doctor_id = " + docID + "AND H.appt_id = A.appnt_ID AND (A.status = 'AV' or A.status = 'AC') AND A.adate => " + startDate + " AND A.adate <= endDate;
+			query = "SELECT A.appnt_ID from Appointment A, Doctor D has_appointment H where H.doctor_id = " + docID + "AND H.appt_id = A.appnt_ID AND (A.status = 'AV' or A.status = 'AC') AND A.adate => " + startDate + " AND A.adate <= " + endDate;
 			esql.executeUpdate(query);
 		}
 		catch (Exception e) 
