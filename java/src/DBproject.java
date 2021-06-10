@@ -689,6 +689,74 @@ public class DBproject{
 
 	public static void ListAppointmentsOfDoctor(DBproject esql) {//5
 		// For a doctor ID and a date range, find the list of active and available appointments of the doctor
+
+		// AC=active, AV=available
+		// SELECT A.appnt_ID 
+		// FROM Appointment A, Doctor D, has_appointment H
+		// WHERE H.doctor_id = D.doctor_ID AND H.appt_id = A.appnt_ID AND (A.status = 'AV' OR A.status = 'AC') AND A.adate => startDate AND A.adate <= endDate
+		// Note: D.doctor_ID, startDate, endDate is user inputted
+
+		int docID;
+		String startDate;
+		String endDate;
+		String query;
+
+		//docID
+		while(true)
+		{
+			System.out.print("Please enter Doctor ID: ");
+			try
+			{
+				docID = Integer.parseInt(in.readLine());
+				break;
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! " + e.getMessage());
+				continue;
+			}
+		}
+
+		//startDate
+		while(true)
+		{
+			System.out.print("\tEnter a start date for your search(Use MM/DD/YY): ");
+			try 
+			{
+				startDate = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! " + e.getMessage());
+				continue;
+			}
+		}
+
+		//endDate
+		while(true)
+		{
+			System.out.print("\tEnter an end date for your search(Use MM/DD/YY): ");
+			try 
+			{
+				endDate = in.readLine();
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! " + e.getMessage());
+				continue;
+			}
+		}
+
+		//combine queries
+		try
+		{
+			query = "SELECT A.appnt_ID from Appointment A, Doctor D has_appointment H where H.doctor_id = " + docID + "AND H.appt_id = A.appnt_ID AND (A.status = 'AV' or A.status = 'AC') AND A.adate => " + startDate + " AND A.adate <= endDate;
+			esql.executeUpdate(query);
+		}
+		catch (Exception e) 
+		{
+				System.err.println("Query failed! " + e.getMessage());
+		}
 	}
 
 	public static void ListAvailableAppointmentsOfDepartment(DBproject esql) {//6
