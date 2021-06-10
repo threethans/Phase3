@@ -297,7 +297,109 @@ public class DBproject{
 		return input;
 	}//end readChoice
 
-	public static void AddDoctor(DBproject esql) {//1
+	public static void AddDoctor(DBproject esql){
+	/*
+		CREATE TABLE Doctor_works_dept (
+		doctor_ID NUMERIC(9, 0),
+		name CHAR(30),
+		specialty CHAR(20),
+		dept_ID NUMERIC(3, 0),
+		PRIMARY KEY(doctor_ID, dept_ID),
+		FOREIGN KEY(dept_ID) REFERENCES Department);
+	*/
+	
+	int docID;
+	String name;
+	String specialty;
+	int deptID;
+	String query;	
+
+	//gets values for each of these variables
+	//retrieves docID
+	while(true)
+	{
+		System.out.print("Input Doctor ID: ");
+		try
+		{
+			//parseInt retrieves the data type of the input
+			docID = Integer.parseInt(in.readLine());
+			break;
+		}
+		//handles errors
+		catch (Exception e)
+		{
+			System.out.println("Invalid input! Error Message: " + e.getMessage());
+			continue;
+		}
+	}
+
+	//retrieves name
+	while(true)
+	{
+		System.out.print("Input Doctor Name: ");
+		try
+		{
+			name = in.readLine();
+			if(name.length() <= 0)
+			{
+				throw new RuntimeException("Invalid input! The Doctor's name cannot be empty.");
+			}
+			break;
+		}
+		catch (Exception e)
+		{
+			System.out.println("Invalid input! Error Message: " + e.getMessage());
+			continue;
+		}
+	}
+
+	//retrives specialty
+	while(true)
+	{
+		System.out.print("Please input Doctor's Specialty: ")
+		try
+		{
+			specialty = in.readLine();
+			if(specialty.length() <= 0)
+			{
+				throw new RuntimeException("Invalid input! The Doctor's specialty cannot be empty.");
+			}
+			break;
+		}
+		catch (Exception e)
+		{
+			System.out.println("Invalid input! Error Message: " + e.getMessage());
+			continue;
+		}
+	}
+
+	//retrieves deptID
+	while(true)
+	{
+		System.out.print("Please input Department ID: ")
+		try
+		{
+			deptID = Integer.parseInt(readLine());
+			break;
+		}
+		catch (Exception e)
+		{
+			System.out.println("Invalid input! Error Message: " + e.getMessage());
+			continue;
+		}
+	}
+
+	//now to combine all the queries and add it to the database
+	try
+	{
+		query = "INSERT INTO Doctor_works_dept (doctor_ID, name, specialty, dept_ID) VALUES (" + docID " , '" + name + "', '" + specialty + "', " + deptID + " );";
+		esql.executeUpdate(query);
+	}
+	catch (Exception e)
+	{
+		System.err.println("Query attempt failed. Error message: " + e.getMessage());
+	}
+
 	}
 
 	public static void AddPatient(DBproject esql) {//2
