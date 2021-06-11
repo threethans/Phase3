@@ -821,10 +821,55 @@ public class DBproject{
 
 	public static void ListStatusNumberOfAppointmentsPerDoctor(DBproject esql) {//7
 		// Count number of different types of appointments per doctors and list them in descending order
+
+		// SELECT D.doctor_ID, D.name, D.specialty, A.status, count(A.status) AS C
+		// FROM Doctor D, Appointment A, has_appointment H
+		// WHERE H.doctor_id = D.doctor_ID AND A.appnt_ID = H.appt_id
+		// GROUP BY D.doctor_ID, D.name, D.specialty, A.status
+		// ORDER BY C Desc
+
+		String query;
+
+		try
+		{
+			query = "SELECT D.doctor_ID, D.name, D.specialty, A.status, count(A.status) AS C "
+				+ "FROM Doctor D, Appointment A, has_appointment H "
+				+ "WHERE H.doctor_id = D.doctor_ID AND A.appnt_ID = H.appt_id "
+				+ "GROUP BY D.doctor_ID, D.name, D.specialty, A.status "
+				+ "ORDER BY C Desc;";
+		}
+		catch(Exception e)
+		{
+			System.err.println("Query failed! " + e.getMessage());
+		}
 	}
 
 	
 	public static void FindPatientsCountWithStatus(DBproject esql) {//8
 		// Find how many patients per doctor there are with a given status (i.e. PA, AC, AV, WL) and list that number per doctor.
+
+		// SELECT D.doctor_ID, D.name, D.specialty, count(S.pid) AS C
+		// FROM Doctor D, Searches S, has_appointment H, Appointment A
+		// WHERE H.doctor_id = D.doctor_ID AND A.status = status AND A.appnt_ID = S.aid AND H.appt_id = S.aid
+		// GROUP BY D.doctor_ID, D.name, D.specialty
+
+		// Note: in table searches: hid = hospital id, pid = patient id, aid = appointment id 
+		// Also note status is retrieved from the user input 
+
+		try
+		{
+			System.out.print("Please enter the appointment status: ");
+			String status = in.readLine();
+
+			String query = "SELECT D.doctor_ID, D.name, D.specialty, count(S.pid) AS C "
+							+ "FROM Doctor D, Searches S, has_appointment H, Appointment A "
+							+ "WHERE H.doctor_id = D.doctor_ID AND A.status = " + status + " AND A.appnt_ID = S.aid AND H.appt_id = S.aid "
+							+ "GROUP BY D.doctor_ID, D.name, D.specialty;";
+			esql.executeUpdate(query);
+		}
+		catch(Exception e)
+		{
+			System.err.println("Query failed! " + e.getMessage());
+		}
 	}
 }
