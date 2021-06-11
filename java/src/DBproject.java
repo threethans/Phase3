@@ -720,10 +720,11 @@ public class DBproject{
 		//startDate
 		while(true)
 		{
-			System.out.print("\tEnter a start date for your search(Use MM/DD/YY): ");
+			System.out.print("Please enter a start date for your search(Use MM/DD/YY): ");
 			try 
 			{
 				startDate = in.readLine();
+				break;
 			}
 			catch(Exception e)
 			{
@@ -735,10 +736,11 @@ public class DBproject{
 		//endDate
 		while(true)
 		{
-			System.out.print("\tEnter an end date for your search(Use MM/DD/YY): ");
+			System.out.print("Please enter an end date for your search(Use MM/DD/YY): ");
 			try 
 			{
 				endDate = in.readLine();
+				break;
 			}
 			catch(Exception e)
 			{
@@ -761,7 +763,61 @@ public class DBproject{
 
 	public static void ListAvailableAppointmentsOfDepartment(DBproject esql) {//6
 		// For a department name and a specific date, find the list of available appointments of the department
+
+		// SELECT A.appnt_ID
+		// FROM Appointment A, Department D, request_maintenance M, has_appointment H 
+		// WHERE M.dept_name = dName AND M.did = H.doctor_id AND H.appt_id = A.appnt_ID AND A.status = 'AV' AND A.adate = date
+		// dName and date is user inputted
+
+		String dName;
+		String date;
+		String query;
+
+		//dName
+		while(true)
+		{
+			System.out.print("Please enter the Department name: ");
+			try
+			{
+				dName = in.readLine();
+				break;
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! " + e.getMessage());
+				continue;
+			}
+		}
+
+		//date
+		while(true)
+		{
+			System.out.print("Please enter a specified date(Use MM/DD/YY): ");
+			try
+			{
+				date = in.readLine();
+				break;
+			}
+			catch(Exception e)
+			{
+				System.out.println("Invalid input! " + e.getMessage());
+				continue;
+			}
+		}
+
+		//query
+		try
+		{
+			query = "SELECT A.appnt_ID FROM Appointment A, Department D, request_maintenance M, has_appointment H WHERE M.dept_name = \'" + dName + "\' AND M.did = H.doctor_id AND H.appt_id = A.appnt_ID AND A.status = 'AV' AND A.adate = \'" + date + "\'";
+			esql.executeUpdate(query);
+		}
+		catch (Exception e) 
+		{
+				System.err.println("Query failed! " + e.getMessage());
+		}
+
 	}
+
 
 	public static void ListStatusNumberOfAppointmentsPerDoctor(DBproject esql) {//7
 		// Count number of different types of appointments per doctors and list them in descending order
